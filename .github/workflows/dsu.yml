@@ -1,0 +1,20 @@
+name: Daily Standup
+
+on:
+  schedule:
+    - cron: "0 8 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  send-dsu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Slack Message
+        run: |
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{
+            "text":"🌞 Daily Standup\n\nPlease reply in thread:\n\n✅ Yesterday:\n🎯 Today:\n⚠️ Blockers:\n🤝 Support Needed:"
+          }' \
+          ${{ secrets.SLACK_WEBHOOK }}
