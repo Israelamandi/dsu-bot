@@ -5,15 +5,66 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
+const questions = [
+  "What did you accomplish yesterday?",
+  "What are your priorities today?",
+  "Any blockers?",
+  "Do you need support from an engineer, CSAM, or SSSP?",
+  "Which customers need attention today?"
+];
+
+const userSessions = {};
+
 app.message(async ({ message, say }) => {
   if (message.subtype) return;
 
+  const userId = message.user;
+  const text = message.text.trim();
+
+  // Start DSU
+  if (text.toLowerCase() === "start") {
+    userSessions[userId] = {
+      currentQuestion: 0,
+      answers: []
+    };
+
+    await say(
+      `Question 1/${questions.length}\n\n${questions[0]}`
+    );
+    return;
+  }
+
+  const session = userSessions[userId];
+
+  if (!session) {
+    await say(
+      "Send *start* to begin your DSU."
+    );
+    return;
+  }
+
+  session.answers.push(text);
+  session.currentQuestion++;
+
+  if (session.currentQuestion >= questions.length) {
+    let summary = "*DSU Submitted* 🚀\n\n";
+
+    questions.forEach((q, i) => {
+      summary += `*${q}*\n${session.answers[i]}\n\n`;
+    });
+
+    await say(summary);
+
+    delete userSessions[userId];
+    return;
+  }
+
   await say(
-    `You said: ${message.text}`
+    `Question ${session.currentQuestion + 1}/${questions.length}\n\n${questions[session.currentQuestion]}`
   );
 });
 
 (async () => {
   await app.start(process.env.PORT || 3000);
-  console.log("⚡ DSU Bot running");
+  console.log("DSU Bot running");
 })();
