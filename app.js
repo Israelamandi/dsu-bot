@@ -21,6 +21,12 @@ app.message(async ({ message, say }) => {
   const userId = message.user;
   const text = message.text.trim();
 
+  // WHOAMI COMMAND
+  if (text.toLowerCase() === "whoami") {
+    await say(`Your Slack User ID is: ${userId}`);
+    return;
+  }
+
   // Start DSU
   if (text.toLowerCase() === "start") {
     userSessions[userId] = {
