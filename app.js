@@ -9,8 +9,8 @@ const questions = [
   "What did you accomplish yesterday?",
   "What are your priorities today?",
   "Any blockers?",
-  "Do you need support from an engineer, CSAM, or SSSP?",
-  "Which customers need attention today?"
+  "Do you need support from any team member today?",
+  "Which pending actions need attention today?"
 ];
 
 const userSessions = {};
