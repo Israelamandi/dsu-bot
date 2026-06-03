@@ -1,5 +1,7 @@
 const { App } = require("@slack/bolt");
 
+const registeredUsers = new Set();
+
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET
@@ -34,6 +36,8 @@ app.message(async ({ message, say }) => {
       answers: []
     };
 
+    registeredUsers.add(userId);
+    
     await say(
       `Question 1/${questions.length}\n\n${questions[0]}`
     );
