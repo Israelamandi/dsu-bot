@@ -15,6 +15,6 @@ jobs:
           curl -X POST \
           -H 'Content-type: application/json' \
           --data '{
-            "text":"🌞 Daily Standup\n\nPlease reply in thread:\n\n✅ Yesterday:\n🎯 Today:\n⚠️ Blockers:\n🤝 Support Needed:"
+            "text":"🌞 Daily TAM Standup\n\nPlease reply in thread before 10 AM.\n\n✅ Yesterday\n🎯 Today\n⚠️ Blockers\n🤝 Support Needed\n🚨 Escalations Required"
           }' \
           ${{ secrets.SLACK_WEBHOOK }}
