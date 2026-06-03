@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: dsu-bot
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
